@@ -20,5 +20,10 @@
   "homepage": "https://github.com/Cache123/palette-picker#readme",
   "dependencies": {
     "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.16.0",
+    "jquery": "^3.3.1"
   }
 }
