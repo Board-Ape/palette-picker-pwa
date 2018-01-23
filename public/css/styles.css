@@ -1,0 +1,30 @@
+h1, h2 {
+  margin: auto;
+  text-align: center;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+article {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.color {
+  height: 300px;
+  width: 100px;
+  border: 2px gold solid;
+  border-radius: 10px;
+  background-color: black;
+}
+
+.new-project-input {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
