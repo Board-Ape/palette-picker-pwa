@@ -1,6 +1,11 @@
 h1, h2 {
   margin: auto;
   text-align: center;
+  font-family: 'Cormorant Garamond:700', serif;
+}
+
+h1 {
+  font-size: 3em;
 }
 
 section {
@@ -23,8 +28,27 @@ article {
   background-color: black;
 }
 
-.new-project-input {
+.new-palette {
+  display: flex;
+  justify-content: center;
+}
+
+.save-palette {
+  display: flex;
+  justify-content: center;
+}
+
+.palette-name-input {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.new-project {
   display: flex;
   justify-content: center;
   margin: 20px;
+}
+
+.new-project-input {
+  margin-right: 10px;
 }
