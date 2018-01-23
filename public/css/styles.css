@@ -3,7 +3,7 @@ body {
 }
 
 .top-half {
-  background-color: #5AB1BB;
+  background: linear-gradient(to bottom right, #40798C, #5AB1BB);
   padding: 40px;;
   margin: -8px;
 }
