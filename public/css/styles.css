@@ -1,0 +1,69 @@
+body {
+  background-color: #40798C;
+}
+
+.top-half {
+  background-color: #5AB1BB;
+  padding: 40px;;
+  margin: -8px;
+}
+
+.bottom-half {
+  padding: 40px;
+  margin: -8px;
+}
+
+h1, h2 {
+  margin: auto;
+  text-align: center;
+  font-family: 'Cormorant Garamond:700', serif;
+}
+
+h1 {
+  font-size: 3em;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+article {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.color {
+  height: 300px;
+  width: 100px;
+  border: 2px gold solid;
+  border-radius: 10px;
+  background-color: black;
+}
+
+.new-palette {
+  display: flex;
+  justify-content: center;
+}
+
+.save-palette {
+  display: flex;
+  justify-content: center;
+}
+
+.palette-name-input {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.new-project {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.new-project-input {
+  margin-right: 10px;
+}
