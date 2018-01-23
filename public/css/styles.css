@@ -1,3 +1,18 @@
+body {
+  background-color: #40798C;
+}
+
+.top-half {
+  background-color: #5AB1BB;
+  padding: 40px;;
+  margin: -8px;
+}
+
+.bottom-half {
+  padding: 40px;
+  margin: -8px;
+}
+
 h1, h2 {
   margin: auto;
   text-align: center;
