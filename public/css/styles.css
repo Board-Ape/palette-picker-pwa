@@ -3,12 +3,13 @@ body {
 }
 
 .top-half {
-  background: linear-gradient(to bottom right, #40798C, #5AB1BB);
+  background: radial-gradient(circle, #40798C, #5AB1BB, aqua);
   padding: 40px;;
   margin: -8px;
 }
 
 .bottom-half {
+  background: linear-gradient(aqua, #40798C);
   padding: 40px;
   margin: -8px;
 }
