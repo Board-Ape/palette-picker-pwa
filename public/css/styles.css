@@ -36,12 +36,24 @@ article {
   margin: 20px;
 }
 
+#lock1,
+#lock2,
+#lock3,
+#lock4,
+#lock5 {
+  background-image: url('./assets/002-padlock-1.svg');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}
+
 .color {
   height: 300px;
   width: 100px;
   border: 2px gold solid;
   border-radius: 10px;
-  background-color: black;
+  background-image: url('./assets/001-padlock.svg');
+  background-repeat: no-repeat;
+  background-position: center bottom;
 }
 
 .new-palette {

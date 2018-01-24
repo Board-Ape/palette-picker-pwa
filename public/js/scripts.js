@@ -12,6 +12,7 @@ const randomizeColors = () => {
 
 const toggleLock = event => {
   const { id } = event.target;
+  console.log(id.substr(id.length - 1));
 
   if (id.includes('color')) {
     console.log('lock');
