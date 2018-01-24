@@ -16,7 +16,7 @@ app.locals.projects = [
 ];
 app.locals.palettes = [
   {
-    id: 1,
+    id: '1',
     palette:' warm',
     color1: '#a3a380',
     color2: '#d6ce93',
@@ -26,7 +26,7 @@ app.locals.palettes = [
     projectId: 1
   },
   {
-    id: 2,
+    id: '2',
     palette: 'hot',
     color1: '#0d160b',
     color2: '#785589',
@@ -36,7 +36,7 @@ app.locals.palettes = [
     projectId: 2
   },
   {
-    id: 3,
+    id: '3',
     palette: 'fire',
     color1: '#6f1d1b',
     color2: '#bb9457',
@@ -58,6 +58,17 @@ app.get('/api/v1/projects', (request, response) => {
 app.get('/api/v1/palettes', (request, response) => {
   if (app.locals.palettes) {
     return response.status(200).json(app.locals.palettes);
+  } else {
+    return response.sendStatus(404);
+  }
+});
+
+app.get('/api/v1/palettes/:id', (request, response) => {
+  const { id } = request.params;
+  const palette = app.locals.palettes.find(palette => palette.id === id);
+
+  if (palette) {
+    return response.status(200).json(palette);
   } else {
     return response.sendStatus(404);
   }
@@ -93,6 +104,18 @@ app.post('/api/v1/palettes', (request, response) => {
     return response.status(422).send({
       error: 'No palette property provided.'
     });
+  }
+});
+
+app.delete('/api/v1/palettes/:id', (request, response) => {
+  const { id } = request.params;
+  const selectedPalette = app.locals.palettes.find(palette => palette.id === id);
+
+  if (selectedPalette) {
+    app.locals.palettes = app.locals.palettes.filter(palette => palette !== selectedPalette);
+    return response.sendStatus(204);
+  } else {
+    return response.status(422).json({ error: `${id} does not exist` });
   }
 });
 
