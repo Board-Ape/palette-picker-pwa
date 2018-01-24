@@ -12,7 +12,7 @@ app.locals.title = 'Palette Picker';
 app.locals.projects = [
   { id: 1, name: 'Smith' },
   { id: 2, name: 'Jane' },
-  { id: 3, name: 'Willy' }
+  { id: 3, name: 'Willies' }
 ];
 app.locals.palettes = [
   {
@@ -60,6 +60,24 @@ app.get('/api/v1/palettes', (request, response) => {
     return response.status(200).json(app.locals.palettes);
   } else {
     return response.sendStatus(404);
+  }
+});
+
+app.post('/api/v1/projects', (request, response) => {
+  const { name } = request.body;
+  const id = app.locals.projects.length + 1;
+
+  if (!name) {
+    return response.status(422).send({
+      error: 'Please Enter Name Property'
+    });
+  } else if (app.locals.projects.find(project => project.name === name)) {
+    return response.stats(422).send({
+      error: 'Name Property Already Exist'
+    });
+  } else {
+    app.locals.projects.push({ id, name });
+    return response.status(201).json({ id, name });
   }
 });
 
