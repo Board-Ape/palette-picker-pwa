@@ -36,12 +36,43 @@ article {
   margin: 20px;
 }
 
+#lock1,
+#lock2,
+#lock3,
+#lock4,
+#lock5 {
+  background-image: url('./assets/002-padlock-1.svg');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}
+
 .color {
   height: 300px;
-  width: 100px;
-  border: 2px gold solid;
+  width: 150px;
   border-radius: 10px;
-  background-color: black;
+  background-image: url('./assets/001-padlock.svg');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}
+
+.color:hover {
+  outline: none;
+  border-color: black;
+  box-shadow: 0 0 20px black;
+}
+
+.random-palette-button {
+  height: 50px;
+  width: 350px;
+  border-radius: 10px;
+  font-size: 30px;
+  font-family: 'Cormorant Garamond:700', serif;
+}
+
+.random-palette-button:hover  {
+  outline: none;
+  border-color: black;
+  box-shadow: 0 0 20px black;
 }
 
 .new-palette {
