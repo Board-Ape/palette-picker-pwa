@@ -10,14 +10,14 @@ app.use(express.static(__dirname + '/public'));
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Palette Picker';
 app.locals.projects = [
-  { id: 1, name: 'Smith' },
-  { id: 2, name: 'Jane' },
-  { id: 3, name: 'Willies' }
+  { id: 1, project: 'Smith' },
+  { id: 2, project: 'Jane' },
+  { id: 3, project: 'Willies' }
 ];
 app.locals.palettes = [
   {
     id: 1,
-    title:' warm',
+    palette:' warm',
     color1: '#a3a380',
     color2: '#d6ce93',
     color3: '#efebce',
@@ -26,8 +26,8 @@ app.locals.palettes = [
     projectId: 1
   },
   {
-    id: 5,
-    title: 'hot',
+    id: 2,
+    palette: 'hot',
     color1: '#0d160b',
     color2: '#785589',
     color3: '#977390',
@@ -36,8 +36,8 @@ app.locals.palettes = [
     projectId: 2
   },
   {
-    id: 11,
-    name: 'fire',
+    id: 3,
+    palette: 'fire',
     color1: '#6f1d1b',
     color2: '#bb9457',
     color3: '#432818',
@@ -64,20 +64,35 @@ app.get('/api/v1/palettes', (request, response) => {
 });
 
 app.post('/api/v1/projects', (request, response) => {
-  const { name } = request.body;
+  const { project } = request.body;
   const id = app.locals.projects.length + 1;
 
-  if (!name) {
+  if (!project) {
     return response.status(422).send({
       error: 'Please Enter Name Property'
     });
-  } else if (app.locals.projects.find(project => project.name === name)) {
+  } else if (app.locals.projects.find(project => project.project === project)) {
     return response.stats(422).send({
       error: 'Name Property Already Exist'
     });
   } else {
-    app.locals.projects.push({ id, name });
-    return response.status(201).json({ id, name });
+    app.locals.projects.push({ id, project });
+    return response.status(201).json({ id, project });
+  }
+});
+
+app.post('/api/v1/palettes', (request, response) => {
+  const { palette } = request.body;
+  const id = app.locals.palettes.length + 1;
+  const newPalette = Object.assign({ id }, palette);
+
+  if (palette) {
+    app.locals.palettes.push(newPalette);
+    return response.status(201).json(newPalette);
+  } else {
+    return response.status(422).send({
+      error: 'No palette property provided.'
+    });
   }
 });
 
