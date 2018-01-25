@@ -12,6 +12,7 @@ body {
 }
 
 header {
+  margin: 40px 0 15px 0;
   font-family: 'Kaushan Script', cursive;
   height: 120px;
   width: 100%;
@@ -198,11 +199,38 @@ header {
   background-color: white;
 }
 
-.full-palette {
-  display: flex
+.saved-project-titles {
+  margin-top: 30px;
+  text-align: center;
+  color: white;
 }
 
-.small-color {
+.full-palette {
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+.saved-palette-titles {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.small-color, .delete-palette {
   width: 100px;
   height: 100px;
+}
+
+.delete-palette {
+  background-color: #008A9A;
+  color: white;
+  border: 1.5px solid #41403D;
+}
+
+.delete-palette:hover {
+  background-color: white;
+  color: #008A9A;
 }
