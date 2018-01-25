@@ -27,14 +27,20 @@ const toggleLock = event => {
 
 const createProject = project => {
   $('select').append(`<option value=${project}>${project}</option>`);
-  // <option value="Project 1">Project 1</option>
+};
+
+const displayProjectTitle = (id, project) => {
+  $('.projects').append(`<div class="title" id="project${id}"><h3>${project}</h3></div>`);
 };
 
 const saveProject = () => {
+  const id = Date.now();
   const project = $('#save-title').val();
 
   createProject(project);
+  displayProjectTitle(id, project);
 };
+
 
 $(window).load(() => randomizeColors());
 $(".random-palette-button").click(randomizeColors);
