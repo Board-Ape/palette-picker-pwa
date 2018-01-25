@@ -7,7 +7,7 @@ const randomColorGeneration = () => {
   return hexColor;
 };
 
-const randomizeColors = (number) => {
+const randomizeColors = number => {
   const colorsNumber = [1, 2, 3, 4, 5];
 
   colorsNumber.forEach(number => {
@@ -25,6 +25,18 @@ const toggleLock = event => {
     $(`#${id}`).attr('id', `color${id.substr(id.length - 1)}`);
 };
 
+const createProject = project => {
+  $('select').append(`<option value=${project}>${project}</option>`);
+  // <option value="Project 1">Project 1</option>
+};
+
+const saveProject = () => {
+  const project = $('#save-title').val();
+
+  createProject(project);
+};
+
 $(window).load(() => randomizeColors());
 $(".random-palette-button").click(randomizeColors);
 $(".color").click(event => toggleLock(event));
+$(".save-palette-button").click(saveProject);
