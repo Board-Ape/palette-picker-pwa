@@ -18,6 +18,7 @@ const setPalette = () => {
 };
 
 const lockUnlockColor = (event) => {
+  console.log('here');
   const bar = $(event.target);
   bar.closest('.color').toggleClass('locked');
 };

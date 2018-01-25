@@ -8,12 +8,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-image: url('./assets/kyle-johnson-383916.jpg');
 }
 
 header {
   font-family: 'Lobster', cursive;
   height: 120px;
-  background-color: #0095A4;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -38,10 +38,17 @@ header {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+  background-image: url(./assets/001-padlock.svg);
+  background-repeat: no-repeat;
 }
 
-.color {
-  background: #0095A4;
+.locked {
+  background-image: url(./assets/002-padlock-1.svg)
+}
+
+.lock-button {
+  height: 30px;
+  width: 5em;
 }
 
 .hex-text {
