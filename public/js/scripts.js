@@ -34,15 +34,43 @@ const displayProjectTitle = (id, project) => {
 };
 
 const saveProject = () => {
-  const id = Date.now();
   const project = $('#save-title').val();
 
   createProject(project);
-  displayProjectTitle(id, project);
+};
+
+const getPalettes = projects => {
+  return fetch('/api/v1/palettes')
+    .then(response => response.json())
+    .then(responseObj => displayProjects(responseObj, projects));
+};
+
+const displayProjects = projects => {
+  projects.forEach(project => {
+    saveProject(project.id, project.title);
+    createProject(project.title);
+  });
+  getPalettes(projects);
+};
+
+const displayPalettes = (palettes, projects) => {
+  projects.forEach(project => {
+    const projectPalettes = palettes.filter(palette => palette.projectId === project.id);
+    projectPalettes.forEach(palette => {
+      const colors = [palettes.color1, palettes.color2, palettes.color3, palettes.color4, palettes.color5];
+      const colorSchemes = colors.map(color => {
+        return `<div style='back-ground-color:${color}' class='palette-color'></div>`;
+      });
+      $(`#project${project.id}`).append(`<div class='palette'><h5>${palette.name}</h5>${colorSchemes.join('')}</div>`);
+    });
+  });
 };
 
 
-$(window).load(() => randomizeColors());
+$(window).load(() => {
+  randomizeColors();
+  getPalettes();
+});
 $(".random-palette-button").click(randomizeColors);
 $(".color").click(event => toggleLock(event));
 $(".save-palette-button").click(saveProject);
