@@ -1,26 +1,28 @@
 const randomColorGeneration = () => {
-  return "#" + (Math.random() * 0xFFFFFF << 0).toString(16);
+  let letters = '0123456789ABCDEF';
+  let hexColor = '#';
+  for (let iterator = 0; iterator < 6; iterator++) {
+    hexColor += letters[Math.floor(Math.random() * 16)];
+  }
+  return hexColor;
 };
 
-const randomizeColors = () => {
-  $(".color1").css("background-color", randomColorGeneration());
-  $(".color2").css("background-color", randomColorGeneration());
-  $(".color3").css("background-color", randomColorGeneration());
-  $(".color4").css("background-color", randomColorGeneration());
-  $(".color5").css("background-color", randomColorGeneration());
+const randomizeColors = (number) => {
+  const colorsNumber = [1, 2, 3, 4, 5];
+
+  colorsNumber.forEach(number => {
+    $(`.color${number}`).hasClass('color') ?
+      $(`#color${number}`).css("background-color", randomColorGeneration()) :
+      $(`#color${number}`).css("background-color");
+  });
 };
 
 const toggleLock = event => {
   const { id } = event.target;
-  console.log(id.substr(id.length - 1));
 
-  if (id.includes('color')) {
-    console.log('lock');
-    $(`#${id}`).attr('id', `lock${id.substr(id.length - 1)}`);
-  } else {
-    console.log('unlock');
+  id.includes('color') ?
+    $(`#${id}`).attr('id', `lock${id.substr(id.length - 1)}`) :
     $(`#${id}`).attr('id', `color${id.substr(id.length - 1)}`);
-  }
 };
 
 $(window).load(() => randomizeColors());
