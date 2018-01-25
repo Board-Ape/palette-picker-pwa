@@ -8,12 +8,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-image: url('./assets/kyle-johnson-383916.jpg');
 }
 
 header {
-  font-family: 'Lobster', cursive;
+  margin: 40px 0 15px 0;
+  font-family: 'Kaushan Script', cursive;
   height: 120px;
-  background-color: #0095A4;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -24,8 +25,9 @@ header {
 
 .color-container {
   display: flex;
-  width: 90%;
+  width: 95%;
   justify-content: center;
+  margin:20px;
 }
 
 .color {
@@ -40,8 +42,39 @@ header {
   align-items: center;
 }
 
-.color {
-  background: #0095A4;
+.lock-icon {
+  height: 100px;
+  width: 100px;
+  border: none;
+  display: flex;
+  justify-content: center;
+}
+
+.locked {
+  background-image: url(./assets/002-padlock-1.svg);
+  background-size: 60px 60px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-position: bottom;
+  padding-bottom: 40px;
+  margin: 5px;
+}
+
+.lock-button {
+  height: 40px;
+  width: 5em;
+  margin-top: 70px;
+  color: white;
+  background-color: black;
+  font-size: 20px;
+  padding: 5px;
+  border: none;
+  border-radius: 100%
+}
+
+.lock-button:hover {
+  color: black;
+  background-color: white;
 }
 
 .hex-text {
@@ -50,35 +83,154 @@ header {
 }
 
 .new-button {
-  width: 200px;
+  width: 300px;
   height: 50px;
-  margin-top: 30px;
   cursor: pointer;
-  margin: 20px 0px 10px 0px;
+  margin: 60px 0px 80px 0px;
   background-color: #008A9A;
   color: white;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
   user-select: none;
-  border: 2px solid #41403D;
+  border: 3px solid #41403D;
   padding: .75rem 1rem;
   font-size: 16px;
   letter-spacing: 2px;
   line-height: 1.25;
-  border-radius: .25rem;
+  border-radius: 10px;
   transition: all .15s ease-in-out;
 }
 
+.new-button:hover {
+  color: #008A9A;
+  background-color: white;
+}
+
+.palette-header {
+  margin-bottom: 20px;
+}
+
 .save-container {
+  height: 80px;
+  width: 95%;
   display: flex;
+  justify-content: center;
+}
+
+.drop-down {
+  height: 32px;
+  width: 80px;
+  background-color: #008A9A;
+  color: white;
+  border: 1.5px solid #41403D;
+}
+
+.drop-down:hover {
+  color: #008A9A;
+  background-color: white;
+}
+
+.name-input {
+  height: 26px;
+  margin-left: 10px;
+  margin-right: 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.name-input:hover {
+  outline: none;
+  border-color: #008A9A;
+  box-shadow: 0 0 10px #9ecaed
+}
+
+.save-button {
+  height: 32px;
+  width: 80px;
+  background-color: #008A9A;
+  color: white;
+  border: 1.5px solid #41403D;
+  border-radius: 5px;
+}
+
+.save-button:hover {
+  color: #008A9A;
+  background-color: white;
+}
+
+.palette-header, .project-header {
+  font-size: 40px;
+  font-family: 'Kaushan Script', cursive;
+}
+
+.save-project-container {
+  margin: 20px;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+}
+
+.project-input {
+  height: 26px;
+  text-align: center;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.project-input:hover {
+  outline: none;
+  border-color: #008A9A;
+  box-shadow: 0 0 10px #9ecaed
+}
+
+.save-project {
+  height: 32px;
+  width: 80px;
+  background-color: #008A9A;
+  color: white;
+  border: 1.5px solid #41403D;
+  margin-left: 5px;
+  border-radius: 5px;
+}
+
+.save-project:hover {
+  color: #008A9A;
+  background-color: white;
+}
+
+.saved-project-titles {
+  margin-top: 30px;
+  text-align: center;
+  color: white;
 }
 
 .full-palette {
-  display: flex
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  margin: 10px;
 }
 
-.small-color {
+.saved-palette-titles {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.small-color, .delete-palette {
   width: 100px;
   height: 100px;
+}
+
+.delete-palette {
+  background-color: #008A9A;
+  color: white;
+  border: 1.5px solid #41403D;
+}
+
+.delete-palette:hover {
+  background-color: white;
+  color: #008A9A;
 }
