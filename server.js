@@ -5,118 +5,134 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(__dirname + '/public'));
+const environment = process.env.NODE_ENV || 'development';
+const configuration = require('./knexfile')[environment];
+const database = require('knex')(configuration);
 
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Palette Picker';
-app.locals.projects = [
-  { id: 1, project: 'Smith' },
-  { id: 2, project: 'Jane' },
-  { id: 3, project: 'Willies' }
-];
-app.locals.palettes = [
-  {
-    id: '1',
-    palette:' warm',
-    color1: '#a3a380',
-    color2: '#d6ce93',
-    color3: '#efebce',
-    color4: '#d8a48f',
-    color5: '#bb8588',
-    projectId: 1
-  },
-  {
-    id: '2',
-    palette: 'hot',
-    color1: '#0d160b',
-    color2: '#785589',
-    color3: '#977390',
-    color4: '#ac7b7d',
-    color5: '#bb8a89',
-    projectId: 2
-  },
-  {
-    id: '3',
-    palette: 'fire',
-    color1: '#6f1d1b',
-    color2: '#bb9457',
-    color3: '#432818',
-    color4: '#99582a',
-    color5: '#ffe6a7',
-    projectId: 3
-  }
-];
+app.use(express.static(__dirname + '/public'));
+
 
 app.get('/api/v1/projects', (request, response) => {
-  if (app.locals.projects) {
-    return response.status(200).json(app.locals.projects);
-  } else {
-    return response.sendStatus(404);
-  }
+  database('projects').select()
+    .then( projects => {
+      return response.status(200).json(projects);
+    })
+    .catch( error => {
+      return response.status(500).json({ error });
+    });
 });
 
-app.get('/api/v1/palettes', (request, response) => {
-  if (app.locals.palettes) {
-    return response.status(200).json(app.locals.palettes);
-  } else {
-    return response.sendStatus(404);
-  }
+app.get('/api/v1/projects/:id', (request, response) => {
+  const { id } = request.params;
+
+  database('projects').where('id', id).select()
+    .then( project => {
+      if (project.length) {
+        return response.status(200).json(project);
+      } else {
+        return response.status(404).json({ error: `Could not locate project with id: ${id}` });
+      }
+    })
+    .catch(error => {
+      return response.status(500).json({ error });
+    });
+});
+
+app.get('/api/v1/projects/:id/palettes', (request, response) => {
+  const { id } = request.params;
+
+  database('palettes').where('projectId', id).select()
+    .then( palettes => {
+      if (palettes.length) {
+        return response.status(200).json(palettes);
+      } else {
+        return response.status(404).json({
+          error: `Could not locate palettes for project with id: ${id}`
+        });
+      }
+    })
+    .catch(error => {
+      return response.status(500).json({ error });
+    });
 });
 
 app.get('/api/v1/palettes/:id', (request, response) => {
   const { id } = request.params;
-  const palette = app.locals.palettes.find(palette => palette.id === id);
 
-  if (palette) {
-    return response.status(200).json(palette);
-  } else {
-    return response.sendStatus(404);
-  }
+  database('palettes').where('id', id).select()
+    .then(palette => {
+      if (palette.length) {
+        return response.status(200).json(palette);
+      } else {
+        return response.status(404).json({
+          error: `Could not find palette with id of ${id}`
+        });
+      }
+    })
+    .catch(error => {
+      return response.status(500).json({ error });
+    });
 });
 
 app.post('/api/v1/projects', (request, response) => {
-  const { project } = request.body;
-  const id = app.locals.projects.length + 1;
+  const project = request.body;
 
-  if (!project) {
-    return response.status(422).send({
-      error: 'Please Enter Name Property'
-    });
-  } else if (app.locals.projects.find(project => project.project === project)) {
-    return response.stats(422).send({
-      error: 'Name Property Already Exist'
-    });
-  } else {
-    app.locals.projects.push({ id, project });
-    return response.status(201).json({ id, project });
+  for (let requiredParameter of ['name']) {
+    if (!project[requiredParameter]) {
+      return response.status(422).json({
+        error: `You are missing the ${requiredParameter} property.`
+      });
+    }
   }
+
+  database('projects').insert(project, 'id')
+    .then(projectId => {
+      return response.status(201).json({ id: projectId[0] });
+    })
+    .catch(error => {
+      return response.status(500).json({ error });
+    });
 });
 
-app.post('/api/v1/palettes', (request, response) => {
-  const { palette } = request.body;
-  const id = app.locals.palettes.length + 1;
-  const newPalette = Object.assign({ id }, palette);
+app.post('/api/v1/projects/:id/palettes', (request, response) => {
+  let palette = request.body;
+  const projectId = request.params.id;
 
-  if (palette) {
-    app.locals.palettes.push(newPalette);
-    return response.status(201).json(newPalette);
-  } else {
-    return response.status(422).send({
-      error: 'No palette property provided.'
-    });
+  for (let requiredParameter of ['name', 'color1', 'color2', 'color3', 'color4', 'color5']) {
+    if (!palette[requiredParameter]) {
+      return response.status(422).json({
+        error: `You are missing the ${requiredParameter} property.`
+      });
+    }
   }
+
+  palette = Object.assign({}, palette, { projectId: projectId });
+
+  database('palettes').insert(palette, 'id')
+    .then(paletteId => {
+      return response.status(201).json({ id: paletteId[0] });
+    })
+    .catch(error => {
+      return response.status(500).json({ error });
+    });
 });
 
 app.delete('/api/v1/palettes/:id', (request, response) => {
   const { id } = request.params;
-  const selectedPalette = app.locals.palettes.find(palette => palette.id === id);
 
-  if (selectedPalette) {
-    app.locals.palettes = app.locals.palettes.filter(palette => palette !== selectedPalette);
-    return response.sendStatus(204);
-  } else {
-    return response.status(422).json({ error: `${id} does not exist` });
-  }
+  database('palettes').where('id', id).del()
+    .then(confirmation => {
+      if (!confirmation) {
+        return response.status(422).json({ error: 'That resource does not appear to exist to be deleted.'});
+      } else {
+        return response.sendStatus(204).json({ message: 'Palette successfully deleted'});
+      }
+    })
+    .catch( error => {
+      return response.status(500).json({ error });
+    });
 });
 
 app.listen(app.get('port'), () => {

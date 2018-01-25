@@ -1,76 +1,92 @@
-const randomColorGeneration = () => {
-  let letters = '0123456789ABCDEF';
-  let hexColor = '#';
+const generateRandomColor = () => {
+  const chars = '0123456789ABCDEF';
+  let hex = '#';
   for (let iterator = 0; iterator < 6; iterator++) {
-    hexColor += letters[Math.floor(Math.random() * 16)];
+    hex += chars[Math.floor(Math.random() * 16)];
   }
-  return hexColor;
+  return hex;
 };
 
-const randomizeColors = number => {
-  const colorsNumber = [1, 2, 3, 4, 5];
+const setPalette = () => {
+  for (let iterator = 1; iterator < 6; iterator++){
+    const randomHex = generateRandomColor();
+    if (!$(`.color${iterator}`).hasClass('locked')) {
+      $(`.color${iterator}`).css('background-color', randomHex);
+      $(`#color${iterator}Hex`).text(randomHex);
+    }
+  }
+};
 
-  colorsNumber.forEach(number => {
-    $(`.color${number}`).hasClass('color') ?
-      $(`#color${number}`).css("background-color", randomColorGeneration()) :
-      $(`#color${number}`).css("background-color");
+const lockUnlockColor = (event) => {
+  const bar = $(event.target);
+  bar.closest('.color').toggleClass('locked');
+};
+
+const addProject = (name, value) => {
+  $('.drop-down').append(`<option value='${value}'>${name}</option>`);
+};
+
+const makeProjectList = (projects) => {
+  projects.forEach(project => {
+    addProject(project.name, project.id);
   });
 };
 
-const toggleLock = event => {
-  const { id } = event.target;
-
-  id.includes('color') ?
-    $(`#${id}`).attr('id', `lock${id.substr(id.length - 1)}`) :
-    $(`#${id}`).attr('id', `color${id.substr(id.length - 1)}`);
+const showPalettes = (palettes) => {
+  palettes.forEach(palette => {
+    $(`.project${palette.project_id}`).append(`
+      <div class='full-palette'>
+        <div class='small-color'
+          style='background-color: ${palette.hex1}'>
+        </div>
+        <div class='small-color'
+          style='background-color: ${palette.hex2}'>
+        </div>
+        <div class='small-color'
+          style='background-color: ${palette.hex3}'>
+        </div>
+        <div class='small-color'
+          style='background-color: ${palette.hex4}'>
+        </div>
+        <div class='small-color'
+          style='background-color: ${palette.hex5}'>
+        </div>
+      </div>
+    `);
+  });
 };
 
-const createProject = project => {
-  $('select').append(`<option value=${project}>${project}</option>`);
+const getPalettes = (projects) => {
+  projects.forEach(project => {
+    fetch(`/api/v1/projects/${project.id}/palettes`)
+      .then( response => response.json())
+      .then( palettes => showPalettes(palettes));
+  });
 };
 
-const displayProjectTitle = (id, project) => {
-  $('.projects').append(`<div class="title" id="project${id}"><h3>${project}</h3></div>`);
+const showProjects = (projects) => {
+  projects.forEach(project => {
+    $('.projects-container').append(`
+      <div class='project${project.id} project'>
+        <h2>${project.name}</h2>
+      </div>
+    `);
+  });
 };
 
-const saveProject = () => {
-  const project = $('#save-title').val();
-
-  createProject(project);
-};
-
-const getPalettes = projects => {
-  return fetch('/api/v1/palettes')
+const getProjects = () => {
+  fetch('/api/v1/projects')
     .then(response => response.json())
-    .then(responseObj => displayProjects(responseObj, projects));
+    .then(projects => {
+      makeProjectList(projects);
+      getPalettes(projects);
+      showProjects(projects);
+    })
+    .catch(error => console.log({ error }));
 };
 
-const displayProjects = projects => {
-  projects.forEach(project => {
-    saveProject(project.id, project.title);
-    createProject(project.title);
-  });
-  getPalettes(projects);
-};
-
-const displayPalettes = (palettes, projects) => {
-  projects.forEach(project => {
-    const projectPalettes = palettes.filter(palette => palette.projectId === project.id);
-    projectPalettes.forEach(palette => {
-      const colors = [palettes.color1, palettes.color2, palettes.color3, palettes.color4, palettes.color5];
-      const colorSchemes = colors.map(color => {
-        return `<div style='back-ground-color:${color}' class='palette-color'></div>`;
-      });
-      $(`#project${project.id}`).append(`<div class='palette'><h5>${palette.name}</h5>${colorSchemes.join('')}</div>`);
-    });
-  });
-};
-
-
-$(window).load(() => {
-  randomizeColors();
-  getPalettes();
-});
-$(".random-palette-button").click(randomizeColors);
-$(".color").click(event => toggleLock(event));
-$(".save-palette-button").click(saveProject);
+// event listeners
+$(document).ready(setPalette);
+$(document).ready(getProjects);
+$('.color').on('click', ".lock-button", (event => lockUnlockColor(event)));
+$('.new-button').on('click', setPalette);
