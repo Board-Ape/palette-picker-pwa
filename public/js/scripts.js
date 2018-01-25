@@ -1,30 +1,154 @@
-const randomColorGeneration = () => {
-  let letters = '0123456789ABCDEF';
-  let hexColor = '#';
+const generateRandomColor = () => {
+  const chars = '0123456789ABCDEF';
+  let hex = '#';
   for (let iterator = 0; iterator < 6; iterator++) {
-    hexColor += letters[Math.floor(Math.random() * 16)];
+    hex += chars[Math.floor(Math.random() * 16)];
   }
-  return hexColor;
+  return hex;
 };
 
-const randomizeColors = (number) => {
-  const colorsNumber = [1, 2, 3, 4, 5];
+const setPalette = () => {
+  for (let iterator = 1; iterator < 6; iterator++){
+    const randomHex = generateRandomColor();
+    if (!$(`.color${iterator}`).hasClass('locked')) {
+      $(`.color${iterator}`).css('background-color', randomHex);
+      $(`#color${iterator}Hex`).text(randomHex);
+    }
+  }
+};
 
-  colorsNumber.forEach(number => {
-    $(`.color${number}`).hasClass('color') ?
-      $(`#color${number}`).css("background-color", randomColorGeneration()) :
-      $(`#color${number}`).css("background-color");
+const lockUnlockColor = (event) => {
+  const bar = $(event.target);
+  bar.closest('.color').toggleClass('locked');
+};
+
+const addProject = (name, value) => {
+  $('.drop-down').append(`<option value='${value}'>${name}</option>`);
+};
+
+const makeProjectList = (projects) => {
+  projects.forEach(project => {
+    addProject(project.name, project.id);
   });
 };
 
-const toggleLock = event => {
-  const { id } = event.target;
-
-  id.includes('color') ?
-    $(`#${id}`).attr('id', `lock${id.substr(id.length - 1)}`) :
-    $(`#${id}`).attr('id', `color${id.substr(id.length - 1)}`);
+const showPalettes = (palettes) => {
+  palettes.forEach(palette => {
+    $(`.project${palette.project_id}`).append(`
+      <div class='full-palette' id='${palette.id}'>
+        <h3>${palette.name}</h3>
+        <button class='delete-palette'>Delete</button>
+        <div class='small-color'
+          style='background-color: ${palette.hex1}'>
+        </div>
+        <div class='small-color'
+          style='background-color: ${palette.hex2}'>
+        </div>
+        <div class='small-color'
+          style='background-color: ${palette.hex3}'>
+        </div>
+        <div class='small-color'
+          style='background-color: ${palette.hex4}'>
+        </div>
+        <div class='small-color'
+          style='background-color: ${palette.hex5}'>
+        </div>
+      </div>
+    `);
+  });
 };
 
-$(window).load(() => randomizeColors());
-$(".random-palette-button").click(randomizeColors);
-$(".color").click(event => toggleLock(event));
+const getPalettes = (projects) => {
+  projects.forEach(project => {
+    fetch(`/api/v1/projects/${project.id}/palettes`)
+      .then( response => response.json())
+      .then( palettes => showPalettes(palettes));
+  });
+};
+
+const showProjects = (projects) => {
+  projects.forEach(project => {
+    $('.projects-container').append(`
+      <div class='project${project.id} project'>
+        <h2>${project.name}</h2>
+      </div>
+    `);
+  });
+};
+
+const getProjects = () => {
+  fetch('/api/v1/projects')
+    .then(response => response.json())
+    .then(projects => {
+      makeProjectList(projects);
+      getPalettes(projects);
+      showProjects(projects);
+    })
+    .catch(error => console.log({ error }));
+};
+
+const savePalette = () => {
+  const palette = {
+    name: $('.name-input').val(),
+    hex1: $('.color1').css('background-color'),
+    hex2: $('.color2').css('background-color'),
+    hex3: $('.color3').css('background-color'),
+    hex4: $('.color4').css('background-color'),
+    hex5: $('.color5').css('background-color'),
+    project_id: $('.drop-down').val()
+  };
+
+  fetch('/api/v1/palettes', {
+    method: 'POST',
+    body: JSON.stringify(palette),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(palettes => showPalettes(palettes))
+    .catch(error => console.log(error));
+
+  $('.name-input').val('');
+};
+
+const saveProject = () => {
+  const projectName = JSON.stringify({
+    name: $('.project-input').val()
+  });
+
+  fetch('/api/v1/projects', {
+    method: 'POST',
+    body: projectName,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(project => addProject(project[0].name, project[0].id))
+    .then(getProjects())
+    .catch(error => console.log(error));
+
+  $('.project-input').val('');
+};
+
+const deletePalette = (event) => {
+  const id = $(event.target).closest('.full-palette').attr('id');
+
+  fetch(`/api/v1/palettes/${id}`, {
+    method: 'DELETE'
+  })
+    .then(response => response.json())
+    .catch(error => console.log(error));
+
+  $(event.target).closest('.full-palette').remove();
+};
+
+// event listeners
+$(document).ready(setPalette);
+$(document).ready(getProjects);
+$('.color').on('click', ".lock-button", (event => lockUnlockColor(event)));
+$('.new-button').on('click', setPalette);
+$('.save-button').on('click', savePalette);
+$('.save-project').on('click', saveProject);
+$('.projects-container').on('click', '.delete-palette', (event) => deletePalette(event));

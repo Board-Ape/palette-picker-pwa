@@ -2,57 +2,54 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css?family=Acme|Cormorant+Garamond:300,400,500,700" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css">
     <title>Palette Picker</title>
   </head>
   <body>
-  <div class="top-half">
     <header>
       <h1>Palette Picker</h1>
     </header>
-    <section>
-      <article class="all-colors">
-        <div id="color1" class="color color1"></div>
-        <div id="color2" class="color color2"></div>
-        <div id="color3" class="color color3"></div>
-        <div id="color4" class="color color4"></div>
-        <div id="color5" class="color color5"></div>
-      </article>
-      <article class="new-palette">
-        <button class="random-palette-button">Generate New Palette</button>
-      </article>
-    </div>
-    <div class="bottom-half">
-      <article class="save-palette">
-        <select>
-          <option value="Project 1">Project 1</option>
-          <option value="Project 2">Project 2</option>
-          <option value="Project 3">Project 3</option>
-          <option value="Project 4">Project 4</option>
-          <option value="Project 5">Project 5</option>
-        </select>
-        <input
-          class="palette-name-input"
-          type="text"
-          placeholder="Palette name"
-        />
-        <button class="save-palette-button">Save Palette</button>
-      </article>
-      <article class="new-project">
-        <h2>Create a new project:</h2>
-      </article>
-      <div class="new-project">
-        <input
-          class="new-project-input"
-          type="text"
-          placeholder="New project name"
-        />
-        <button>Save Project</button>
+    <section class="color-container">
+      <div class="color color1">
+        <h2 class="lock-button">LOCK</h2>
+        <span class='hex-text' id='color1Hex'></span>
       </div>
-    </div>
+      <div class="color color2">
+        <h2 class="lock-button">LOCK</h2>
+        <span class='hex-text' id='color2Hex'></span>
+      </div>
+      <div class="color color3">
+        <h2 class="lock-button">LOCK</h2>
+        <span class='hex-text' id='color3Hex'></span>
+      </div>
+      <div class="color color4">
+        <h2 class="lock-button">LOCK</h2>
+        <span class='hex-text' id='color4Hex'></span>
+      </div>
+      <div class="color color5">
+        <h2 class="lock-button">LOCK</h2>
+        <span class='hex-text' id='color5Hex'></span>
+      </div>
     </section>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-    <script src="js/scripts.js"></script>
+    <button class="new-button">New Palette</button>
+    <div class="save-container">
+      <input class="name-input" type="text" placeholder="Palette Name">
+      <form class="" action="" method="">
+        <select class="drop-down" name="">
+          Project
+        </select>
+      </form>
+      <button class="save-button">Save Palette</button>
+    </div>
+    <div class='create-project'>
+      <h3>Create a New Project</h3>
+      <input class="project-input" type="text" placeholder="New Project Name">
+      <button class="save-project">Save Project</button>
+    </div>
+    <section class="projects-container">
+    </section>
+    <script src="./js/scripts.js" charset="utf-8"></script>
   </body>
 </html>
