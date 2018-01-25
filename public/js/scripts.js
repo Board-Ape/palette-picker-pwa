@@ -111,6 +111,25 @@ const savePalette = () => {
   $('.name-input').val('');
 };
 
+const saveProject = () => {
+  const projectName = JSON.stringify({
+    name: $('.project-input').val()
+  });
+
+  fetch('/api/v1/projects', {
+    method: 'POST',
+    body: projectName,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(project => addProject(project[0].name, project[0].id))
+    .catch(error => console.log(error));
+
+  $('.project-input').val('');
+};
+
 // event listeners
 $(document).ready(setPalette);
 $(document).ready(getProjects);
