@@ -58,7 +58,8 @@ const showPalettes = (palettes) => {
 
 const getPalettes = (projects) => {
   projects.forEach(project => {
-    fetch(`/api/v1/projects/${project.id}/palettes`)
+    console.log(project);
+    fetch(`/api/v1/palettes/${project.id}`)
       .then( response => response.json())
       .then( palettes => showPalettes(palettes));
   });
