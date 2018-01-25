@@ -92,12 +92,12 @@ header {
   white-space: nowrap;
   vertical-align: middle;
   user-select: none;
-  border: 2px solid #41403D;
+  border: 3px solid #41403D;
   padding: .75rem 1rem;
   font-size: 16px;
   letter-spacing: 2px;
   line-height: 1.25;
-  border-radius: .25rem;
+  border-radius: 10px;
   transition: all .15s ease-in-out;
 }
 
@@ -106,8 +106,12 @@ header {
   background-color: white;
 }
 
+.palette-header {
+  margin-bottom: 20px;
+}
+
 .save-container {
-  height: 100px;
+  height: 80px;
   width: 95%;
   display: flex;
   justify-content: center;
@@ -150,6 +154,46 @@ header {
 }
 
 .save-button:hover {
+  color: #008A9A;
+  background-color: white;
+}
+
+.palette-header, .project-header {
+  font-size: 40px;
+  font-family: 'Kaushan Script', cursive;
+}
+
+.save-project-container {
+  margin: 20px;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+}
+
+.project-input {
+  height: 26px;
+  text-align: center;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.project-input:hover {
+  outline: none;
+  border-color: #008A9A;
+  box-shadow: 0 0 10px #9ecaed
+}
+
+.save-project {
+  height: 32px;
+  width: 80px;
+  background-color: #008A9A;
+  color: white;
+  border: 1.5px solid #41403D;
+  margin-left: 5px;
+  border-radius: 5px;
+}
+
+.save-project:hover {
   color: #008A9A;
   background-color: white;
 }
