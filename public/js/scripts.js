@@ -136,3 +136,4 @@ $(document).ready(getProjects);
 $('.color').on('click', ".lock-button", (event => lockUnlockColor(event)));
 $('.new-button').on('click', setPalette);
 $('.save-button').on('click', savePalette);
+$('.save-project').on('click', saveProject);
