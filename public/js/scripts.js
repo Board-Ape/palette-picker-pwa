@@ -17,8 +17,8 @@ const setPalette = () => {
   }
 };
 
-const lockUnlockColor = (event) => {
-  console.log('here');
+const toggleLock = (event) => {
+  console.log(event.target);
   const bar = $(event.target);
   bar.closest('.color').toggleClass('locked');
 };
@@ -148,7 +148,7 @@ const deletePalette = (event) => {
 // event listeners
 $(document).ready(setPalette);
 $(document).ready(getProjects);
-$('.color').on('click', ".lock-button", (event => lockUnlockColor(event)));
+$('.color').on('click', ".lock-button", (event => toggleLock(event)));
 $('.new-button').on('click', setPalette);
 $('.save-button').on('click', savePalette);
 $('.save-project').on('click', saveProject);
