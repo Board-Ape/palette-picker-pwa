@@ -91,9 +91,22 @@ describe('API Routes', () => {
           response.should.be.json;
           response.body.should.be.a('array');
           response.body.length.should.equal(1);
+          response.body[0].should.have.property('id');
+          response.body[0].id.should.equal(1);
           response.body[0].should.have.property('name');
-          response.body[0].project_id.should.equal(1);
+          response.body[0].name.should.equal('Dark');
           response.body[0].should.have.property('hex1');
+          response.body[0].hex1.should.equal('#1E3FDA');
+          response.body[0].should.have.property('hex2');
+          response.body[0].hex2.should.equal('#373F5E');
+          response.body[0].should.have.property('hex3');
+          response.body[0].hex3.should.equal('#2F1988');
+          response.body[0].should.have.property('hex4');
+          response.body[0].hex4.should.equal('#7C096B');
+          response.body[0].should.have.property('hex5');
+          response.body[0].hex5.should.equal('#2E2817');
+          response.body[0].should.have.property('project_id');
+          response.body[0].project_id.should.equal(1);
           done();
         })
         .catch(error => {
