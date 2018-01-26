@@ -18,7 +18,6 @@ const setPalette = () => {
 };
 
 const toggleLock = (event) => {
-  console.log(event.target);
   const bar = $(event.target);
   bar.closest('.color').toggleClass('locked');
 };
@@ -80,6 +79,7 @@ const showProjects = (projects) => {
 };
 
 const getProjects = () => {
+  $('.project').remove();
   fetch('/api/v1/projects')
     .then(response => response.json())
     .then(projects => {
