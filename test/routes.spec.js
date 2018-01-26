@@ -36,21 +36,21 @@ describe('Client Routes', () => {
 });
 
 describe('API Routes', () => {
-  before((done) => {
-    database.migrate.latest()
-      .then( () => done())
-      .catch(error => {
-        throw error;
-      });
-  });
-
-  beforeEach((done) => {
-    database.seed.run()
-      .then(() => done())
-      .catch(error => {
-        throw error;
-      });
-  });
+  // before((done) => {
+  //   database.migrate.latest()
+  //     .then( () => done())
+  //     .catch(error => {
+  //       throw error;
+  //     });
+  // });
+  //
+  // beforeEach((done) => {
+  //   database.seed.run()
+  //     .then(() => done())
+  //     .catch(error => {
+  //       throw error;
+  //     });
+  // });
 
   describe('GET /api/v1/projects', () => {
     it('should get projects from database', (done) => {
@@ -60,7 +60,7 @@ describe('API Routes', () => {
           response.should.have.status(200);
           response.should.be.json;
           response.body.should.be.a('array');
-          response.body.length.should.equal(1);
+          response.body.length.should.equal(2);
           response.body[0].should.have.property('id');
           response.body[0].id.should.equal(1);
           response.body[0].should.have.property('name');
@@ -90,7 +90,7 @@ describe('API Routes', () => {
           response.should.have.status(200);
           response.should.be.json;
           response.body.should.be.a('array');
-          response.body.length.should.equal(1);
+          response.body.length.should.equal(2);
           response.body[0].should.have.property('id');
           response.body[0].id.should.equal(1);
           response.body[0].should.have.property('name');
@@ -127,37 +127,92 @@ describe('API Routes', () => {
     });
   });
 
-  describe('POST /api/v1/projects/', () => {
-    it('should add a new project in the database', (done) => {
-      chai.request(server)
-        .post('/api/v1/projects')
-        .send({
-          id: 2,
-          name: 'People Try'
-        })
-        .then(response => {
-          response.should.have.status(201);
-          response.body.should.be.a('array');
-          response.body.length.should.equal(1);
-          response.body[0].should.have.property('id');
-          response.body[0].id.should.equal(2);
-          response.body[0].should.have.property('name');
-          response.body[0].name.should.equal('People Try');
-
-          chai.request(server)
-            .get('/api/v1/projects')
-            .then(response => {
-              response.should.have.status(200);
-              response.should.be.json;
-              response.body.should.be.a('array');
-              response.body.length.should.equal(2);
-              done();
-            })
-            .catch(error => {
-              throw error;
-            });
-        });
-    });
-  });
+  // describe('POST /api/v1/projects/', () => {
+  //   it('should add a new project in the database', (done) => {
+  //     chai.request(server)
+  //       .post('/api/v1/projects')
+  //       .send({
+  //         id: 2,
+  //         name: 'People Try'
+  //       })
+  //       .then(response => {
+  //         response.should.have.status(201);
+  //         response.body.should.be.a('array');
+  //         response.body.length.should.equal(1);
+  //         response.body[0].should.have.property('id');
+  //         response.body[0].id.should.equal(2);
+  //         response.body[0].should.have.property('name');
+  //         response.body[0].name.should.equal('People Try');
+  //
+  //         chai.request(server)
+  //           .get('/api/v1/projects')
+  //           .then(response => {
+  //             response.should.have.status(200);
+  //             response.should.be.json;
+  //             response.body.should.be.a('array');
+  //             response.body.length.should.equal(1);
+  //             done();
+  //           })
+  //           .catch(error => {
+  //             throw error;
+  //           });
+  //       });
+  //   });
+  // });
+  //
+  // describe('POST /api/v1/projects', () => {
+  //   it('should add a new palette to the database', () => {
+  //     chai.request(server)
+  //       .post('/api/v1/palettes')
+  //       .send({
+  //         id: 3,
+  //         name: 'My Toned Glutes',
+  //         hex1: '#558F7E',
+  //         hex2: '#A51425',
+  //         hex3: '#29EA6A',
+  //         hex4: '#049D9A',
+  //         hex5: '#C933BA',
+  //         project_id: project[0]
+  //       })
+  //       .then(response => {
+  //         response.should.have.status(201);
+  //         response.body.should.be.a('array');
+  //         response.body.length.should.equal(1);
+  //         response.body[0].should.have.property('id');
+  //         response.body[0].id.should.equal(3);
+  //         response.body[0].should.have.property('name');
+  //         response.body[0].name.should.equal('My Toned Glutes');
+  //
+  //         chai.request(server)
+  //           .get('/api/v1/projects/1/palettes')
+  //           .then(response => {
+  //             response.should.have.status(200);
+  //             response.should.be.json;
+  //             response.body.should.be.a('array');
+  //             response.body.length.should.equal(3);
+  //             response.body[2].should.have.property('id');
+  //             response.body[2].id.should.equal(3);
+  //             response.body[2].should.have.property('name');
+  //             response.body[2].name.should.equal('My Toned Glutes');
+  //             response.body[2].should.have.property('hex1');
+  //             response.body[2].hex1.should.equal('#558F7E');
+  //             response.body[2].should.have.property('hex2');
+  //             response.body[2].hex2.should.equal('#A51425');
+  //             response.body[2].should.have.property('hex3');
+  //             response.body[2].hex3.should.equal('#29EA6A');
+  //             response.body[2].should.have.property('hex4');
+  //             response.body[2].hex4.should.equal('#049D9A');
+  //             response.body[2].should.have.property('hex5');
+  //             response.body[2].hex5.should.equal('#C933BA');
+  //             response.body[2].should.have.property('project_id');
+  //             response.body[2].project_id.should.equal(1);
+  //             done();
+  //           })
+  //           .catch(error => {
+  //             throw error;
+  //           });
+  //       });
+  //   });
+  // });
 
 });

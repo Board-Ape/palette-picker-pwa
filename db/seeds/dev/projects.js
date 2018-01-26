@@ -19,6 +19,16 @@ exports.seed = function(knex, Promise) {
                 hex4: '#7C096B',
                 hex5: '#2E2817',
                 project_id: project[0]
+              },
+              {
+                id: 2,
+                name: 'Brothers',
+                hex1: '#769DA3',
+                hex2: '#5CF36D',
+                hex3: '#2236DA',
+                hex4: '#DBA028',
+                hex5: '#BC601A',
+                project_id: project[0]
               }
             ]);
           })
