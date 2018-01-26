@@ -92,9 +92,8 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
     .catch(error => response.status(500).json({ error }));
 });
 
-
-
-
 app.listen(app.get('port'), () => {
   console.log(`running on ${app.get('port')}.`);
 });
+
+module.exports = app;
