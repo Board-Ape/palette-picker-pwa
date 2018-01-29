@@ -71,8 +71,9 @@ const getPalettes = (projects) => {
 const showProjects = (projects) => {
   projects.forEach(project => {
     $('.projects-container').append(`
-      <div class='project${project.id} project'>
+      <div id=${project.id} class='project${project.id} project' >
         <h2 class="saved-project-titles">Project Title: ${project.name}</h2>
+        <button class="delete-project-button">Delete Project</button>
       </div>
     `);
   });
@@ -147,6 +148,19 @@ const deletePalette = (event) => {
   $(event.target).closest('.full-palette').remove();
 };
 
+const deleteProject = (event) => {
+  const id = $(event.target).closest('.project').attr('id');
+
+  fetch(`/api/v1/projects/${id}`, {
+    method: 'DELETE'
+  })
+    .then(response => response.json())
+    .catch(error => console.log(error));
+
+  $(event.target).closest('.project').remove();
+};
+
+
 // event listeners
 $(document).ready(setPalette);
 $(document).ready(getProjects);
@@ -155,3 +169,4 @@ $('.new-button').on('click', setPalette);
 $('.save-button').on('click', savePalette);
 $('.save-project').on('click', saveProject);
 $('.projects-container').on('click', '.delete-palette', (event) => deletePalette(event));
+$('.projects-container').on('click', '.delete-project-button', (event) => deleteProject(event));
