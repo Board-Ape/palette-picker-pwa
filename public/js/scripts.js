@@ -91,6 +91,14 @@ const getProjects = () => {
     .catch(error => console.log({ error }));
 };
 
+const addPaletteNotification = (paletteName) => {
+  console.log(navigator.serviceWorker.controller);
+  navigator.serviceWorker.controller.postMessage({
+    type: 'add-palette',
+    paletteName
+  });
+};
+
 const savePalette = () => {
   const palette = {
     name: $('.name-input').val(),
@@ -112,9 +120,11 @@ const savePalette = () => {
     .then(response => response.json())
     .then(palettes => showPalettes(palettes))
     .catch(error => console.log(error));
+  addPaletteNotification(palette.name);
 
   $('.name-input').val('');
 };
+
 
 const saveProject = () => {
   const projectName = JSON.stringify({
@@ -160,8 +170,7 @@ const deleteProject = (event) => {
   $(event.target).closest('.project').remove();
 };
 
-
-// event listeners
+// Evenet Listener
 $(document).ready(setPalette);
 $(document).ready(getProjects);
 $('.color').on('click', ".lock-button", (event => toggleLock(event)));
@@ -170,3 +179,18 @@ $('.save-button').on('click', savePalette);
 $('.save-project').on('click', saveProject);
 $('.projects-container').on('click', '.delete-palette', (event) => deletePalette(event));
 $('.projects-container').on('click', '.delete-project-button', (event) => deleteProject(event));
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+
+    // Register a new service worker.
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(registration => navigator.serviceWorker.ready)
+      .then(registration => {
+        Notification.requestPermission();
+        console.log('ServiceWorker registration successful');
+      }).catch(error => {
+        console.log(`ServiceWorker registration failed: ${error}`);
+      });
+  });
+}

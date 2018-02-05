@@ -1,27 +1,29 @@
 {
-  "short_name": "palettePicker",
   "name": "Palette Picker",
+  "short_name": "PalettePicker",
+  "start_url": "index.html",
+  "display": "standalone",
   "background_color": "blue",
   "theme_color": "yellow",
-  "display": "fullscreen",
+  "description": "Randomize a color palette",
   "icons": [
     {
-      "src": "assets/icon-48.png",
+      "src": "./png/001-palette.png",
       "type": "image/png",
       "sizes": "48x48"
     },
     {
-      "src": "assets/icon-96.png",
+      "src": "./png/002-pantone.png",
       "type": "image/png",
       "sizes": "96x96"
     },
     {
-      "src": "assets/icon-192.png",
+      "src": "./png/003-painting-palette.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "assets/icon-512.png",
+      "src": "./png/004-palette.png",
       "type": "image/png",
       "sizes": "512x512"
     }
